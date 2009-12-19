@@ -23,7 +23,7 @@ module Puppet
             newvalue("deb-src")
         end
 
-        newproperty(:dist) do
+        newproperty(:distribution) do
             desc "APT distrbution to use."
         end
 
@@ -51,8 +51,8 @@ module Puppet
             end
         end
 
-        newproperty(:url) do
-            desc "APT repository URL"
+        newproperty(:uri) do
+            desc "APT repository URI"
 
             defaultto { 
                 if @resource.class.defaultprovider.ancestors.include?(Puppet::Provider::ParsedFile)

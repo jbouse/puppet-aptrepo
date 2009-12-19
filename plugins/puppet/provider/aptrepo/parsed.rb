@@ -13,9 +13,9 @@ Puppet::Type.type(:aptrepo).provide(:parsed,
     text_line :blank, :match => /^\s*$/
 
     record_line :parsed, 
-        :fields => %w{type url dist components},
+        :fields => %w{type uri distribution components},
         :rts    => /^\s+/,
-        :match  => /^(deb|deb-src)\s+(\S*)\s+(\S*)\s+(.+)$/,
+        :match  => /^(deb|deb-src) ([^ ]+) ([^ ]+) (.+)$/,
         :post_parse => proc { |record|
             if record[:components].nil?
                 record[:components] = [:absent]
