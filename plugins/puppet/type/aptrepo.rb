@@ -5,7 +5,7 @@ module Puppet
         sources_list_d = "/etc/apt/sources.list.d"
         sources_list_ext = "list"
 
-        ensurable
+        # ensurable
 
         newparam(:name) do
             desc "The APT repository name."
@@ -16,6 +16,16 @@ module Puppet
                 if value =~ /\s/
                     raise Puppet::Error, "APT repository name cannot include whitespace"
                 end
+            end
+        end
+
+        newproperty(:ensure, :parent => Puppet::Property::Ensure) do
+            newvalue(:present) do
+                provider.delete
+            end
+
+            newvalue(:absent) do
+                provider.delete
             end
         end
 
