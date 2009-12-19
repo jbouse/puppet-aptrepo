@@ -2,10 +2,7 @@ module Puppet
     newtype(:aptrepo) do
         @doc = "Manages APT repositories."
 
-        sources_list_d = "/etc/apt/sources.list.d"
-        sources_list_ext = "list"
-
-        # ensurable
+        ensurable
 
         newparam(:name) do
             desc "The APT repository name."
@@ -16,16 +13,6 @@ module Puppet
                 if value =~ /\s/
                     raise Puppet::Error, "APT repository name cannot include whitespace"
                 end
-            end
-        end
-
-        newproperty(:ensure, :parent => Puppet::Property::Ensure) do
-            newvalue(:present) do
-                provider.delete
-            end
-
-            newvalue(:absent) do
-                provider.delete
             end
         end
 
@@ -86,7 +73,7 @@ module Puppet
                     return super
                 end
 
-                return File.join(sources_list_d, "%s.%s" % [@resource[:name], sources_list_ext])
+                return File.join("/etc/apt/sources.list.d", "%s.%s" % [@resource[:name], "list"])
             end
         end
 
