@@ -76,7 +76,7 @@ module Puppet
                     return super
                 end
 
-                return File.join(sources_list_d, "%s.%" % [@resource[:name], sources_list_ext])
+                return File.join(sources_list_d, "%s.%s" % [@resource[:name], sources_list_ext])
             end
         end
 
