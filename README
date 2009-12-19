@@ -1,0 +1,18 @@
+
+Anticipated goal is to be able to define APT repositories as such
+
+    aptrepo { 
+        'lenny':
+            ensure     => "present",
+            type       => "deb",
+            url        => "http://http.us.debian.org/debian",
+            dist       => "lenny",
+            components => ["main", "contrib"];
+        'lenny-source':
+            ensure     => "absent",
+            type       => "deb-src",
+            url        => "http://http.us.debian.org/debian",
+            dist       => "lenny",
+            components => ["main", "contrib"];
+    }
+
