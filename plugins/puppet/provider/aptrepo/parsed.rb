@@ -14,25 +14,26 @@ Puppet::Type.type(:aptrepo).provide(:parsed,
 
     record_line :parsed, 
         :fields => %w{type uri distribution components},
-        :rts    => /^\s+/,
-        :match  => /^(deb|deb-src) ([^ ]+) ([^ ]+) (.+)$/,
-        :post_parse => proc { |record|
-            if record[:components].nil?
-                record[:components] = [:absent]
+        :optional => %w{components},
+        :rts    => true,
+        :match  => /^(deb|deb-src) ([^ ]+) ([^ ]+)(?: (.+))?$/,
+        :post_parse => proc { |h|
+            if h[:components].nil?
+                h[:components] = [:absent]
             else
-                record[:components] = Puppet::Type::Aptrepo::ProviderParsed.parse_components(record[:components])
+                h[:components] = Puppet::Type::Aptrepo::ProviderParsed.parse_components(h[:components])
             end
         },
-        :pre_gen => proc { |record|
-            if record[:components].include?(:absent)
-                record[:components] = ""
+        :pre_gen => proc { |h|
+            if h[:components].include?(:absent)
+                h[:components] = ""
             else
-                record[:components] = record[:components].join(" ")
+                h[:components] = h[:components].join(" ")
             end
         }
 
     def target
-            @resource.should(:target)
+            @resource.should(:target) 
     end
 
     def dir_perm
