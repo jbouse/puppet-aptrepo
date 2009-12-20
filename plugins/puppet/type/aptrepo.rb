@@ -2,6 +2,10 @@ module Puppet
     newtype(:aptrepo) do
         @doc = "Manages APT repositories."
 
+        @@sources_list = "/etc/apt/sources.list"
+        @@sources_list_d = "/etc/apt/sources.list.d"
+        @@sources_ext = "list"
+
         ensurable
 
         newparam(:name) do
@@ -73,7 +77,7 @@ module Puppet
                     return super
                 end
 
-                return File.join("/etc/apt/sources.list.d", "%s.%s" % [@resource[:name], "list"])
+                return File.join(@@sources_list_d.to_s, "%s.%s" % [@resource[:name], @@sources_ext.to_s])
             end
         end
 
