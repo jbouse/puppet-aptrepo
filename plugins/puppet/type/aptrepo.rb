@@ -4,7 +4,6 @@ module Puppet
 
         @@sources_list = "/etc/apt/sources.list"
         @@sources_list_d = "/etc/apt/sources.list.d"
-        @@sources_ext = "list"
 
         ensurable
 
@@ -77,7 +76,7 @@ module Puppet
                     return super
                 end
 
-                return File.join(@@sources_list_d.to_s, "%s.%s" % [@resource[:name], @@sources_ext.to_s])
+                return File.join(@@sources_list_d.to_s, "#{@resource[:name]}.list")
             end
         end
 
