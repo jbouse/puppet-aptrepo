@@ -28,6 +28,9 @@ module Puppet
 
         newproperty(:distribution) do
             desc "APT distrbution to use."
+
+            newvalue(:absent) { self.should = :absent }
+            newvalue(/.*/) { }
         end
 
         newproperty(:components, :array_matching => :all) do
@@ -57,13 +60,8 @@ module Puppet
         newproperty(:uri) do
             desc "APT repository URI"
 
-            defaultto { 
-                if @resource.class.defaultprovider.ancestors.include?(Puppet::Provider::ParsedFile)
-                    @resource.class.defaultprovider.default_target
-                else
-                    nil
-                end
-            }       
+            newvalue(:absent) { self.should = :absent }
+            newvalue(/.*/) { }
         end
 
         newproperty(:target) do
