@@ -24,6 +24,9 @@ module Puppet
 
             newvalue("deb")
             newvalue("deb-src")
+
+            aliasvalue(:bin, "deb")
+            aliasvalue(:src, "deb-src")
         end
 
         newproperty(:distribution) do
@@ -31,6 +34,12 @@ module Puppet
 
             newvalue(:absent) { self.should = :absent }
             newvalue(/.*/) { }
+
+            validate do |value|
+                if value =~ /\s/
+                    raise Puppet::Error, "APT repository distribution cannot include whitespace"
+                end
+            end
         end
 
         newproperty(:components, :array_matching => :all) do
@@ -75,6 +84,10 @@ module Puppet
                 end
 
                 return File.join(@@sources_list_d.to_s, "#{@resource[:name]}.list")
+            end
+
+            def insync?(is)
+                is == should
             end
         end
 
