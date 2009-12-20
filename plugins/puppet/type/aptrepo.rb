@@ -11,12 +11,6 @@ module Puppet
             desc "The APT repository name."
 
             isnamevar
-
-            validate do |value|
-                if value =~ /\s/
-                    raise Puppet::Error, "APT repository name cannot include whitespace"
-                end
-            end
         end
 
         newproperty(:type) do
@@ -45,9 +39,7 @@ module Puppet
         newproperty(:components, :array_matching => :all) do
             desc "APT repository distribution components"
 
-            def insync?(is)
-                is == @should
-            end
+            defaultto do :absent end
 
             def is_to_s(value)
                 if value == :absent or value.include?(:absent)
